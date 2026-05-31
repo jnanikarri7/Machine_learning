@@ -1,0 +1,49 @@
+# Pet Image Classification - Training Configuration
+
+# Dataset Configuration
+data:
+  data_dir: "data/raw"  # Directory containing breed subdirectories
+  img_size: [128, 128]   # Input image dimensions (height, width)
+  batch_size: 32
+  validation_split: 0.2
+  test_split: 0.1
+
+# Supervised Model Configuration
+supervised:
+  architecture: "custom_cnn"  # Options: custom_cnn, vgg16, resnet50, efficientnet
+  learning_rate: 0.001
+  epochs: 50
+  early_stopping_patience: 10
+  reduce_lr_patience: 5
+  optimizer: "adam"
+  loss: "sparse_categorical_crossentropy"
+
+# Data Augmentation
+augmentation:
+  enabled: true
+  horizontal_flip: true
+  rotation_range: 15
+  zoom_range: 0.1
+  brightness_range: [0.8, 1.2]
+
+# Unsupervised Model Configuration
+unsupervised:
+  method: "kmeans"  # Options: kmeans, dbscan, hierarchical
+  feature_extractor: "vgg16"  # Options: vgg16, resnet50, custom
+  n_clusters: 10  # Number of clusters for K-means
+  use_pca: true
+  pca_components: 128
+  elbow_k_range: [3, 15]  # Range for elbow method analysis
+
+# Training Configuration
+training:
+  use_gpu: true
+  mixed_precision: false  # Enable for faster training on modern GPUs
+  tensorboard_logs: "logs/"
+  checkpoint_dir: "data/models/"
+
+# Evaluation Configuration
+evaluation:
+  top_k_values: [1, 3, 5]  # Top-K accuracy metrics
+  save_confusion_matrix: true
+  save_training_plots: true
